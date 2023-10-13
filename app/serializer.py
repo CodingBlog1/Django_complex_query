@@ -38,16 +38,18 @@ class PersonSerializers(serializers.ModelSerializer):
         model = Person
         fields = '__all__'
 
+    
     def create(self, validated_data):
         print(validated_data)
         visit_city001 = tuple(validated_data['visit_city'])
         print(visit_city001,'modifie')
-        modified_data = {
-            **validated_data,
-            "visit_city":visit_city001
-        }
+        for i in validated_data["visit_city"]:
+            if not City.objects.filter(id=i.id).exists():
+                City.objects.create(name="this", provision=255)
         
-        return Person.objects.create(**modified_data)    
+        return super().create(validated_data)
+        
+    #     return Person.objects.create(**modified_data)    
     
     
     #     {
