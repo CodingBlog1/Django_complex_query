@@ -29,6 +29,7 @@ class CitySerializers(serializers.ModelSerializer):
         fields='__all__'
         
     def create(self, validated_data):
+        print(validated_data)
         return City.objects.create(**validated_data)
     
     
@@ -38,5 +39,22 @@ class PersonSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        return Person.objects.create(**validated_data)    
+        print(validated_data)
+        visit_city001 = tuple(validated_data['visit_city'])
+        print(visit_city001,'modifie')
+        modified_data = {
+            **validated_data,
+            "visit_city":visit_city001
+        }
+        
+        return Person.objects.create(**modified_data)    
     
+    
+    #     {
+    #     "first_name":"morgun",
+    #     "last_name":"daa",
+    #     "visit_city":[6,7],
+    #     "hometown":7,
+    #     "living":6
+
+    # }
